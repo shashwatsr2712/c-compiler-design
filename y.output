@@ -1,0 +1,1713 @@
+Terminals unused in grammar
+
+   NOT_TOK
+
+
+Grammar
+
+    0 $accept: S $end
+
+    1 S: MAIN_FN US_DEF_FNS
+
+    2 MAIN_FN: DATATYPE MAIN_TOK LPAREN_TOK RPAREN_TOK BLK
+
+    3 BLK: BLK_START STMTS BLKS BLK_END
+
+    4 BLK_START: LCURLY_TOK
+
+    5 BLK_END: RCURLY_TOK
+
+    6 BLKS: BLK STMTS BLKS
+    7     | %empty
+
+    8 STMTS: STMTS STMT
+    9      | %empty
+
+   10 STMT: RETURN_TOK EXPRESSION SEMICOLON_TOK
+   11     | DECLARATION SEMICOLON_TOK
+   12     | ASSIGN SEMICOLON_TOK
+   13     | FN_CALL SEMICOLON_TOK
+   14     | ITER
+   15     | COND
+
+   16 DECLARATION: DATATYPE VARS
+
+   17 DATATYPE: INT_TOK
+   18         | FLOAT_TOK
+
+   19 VARS: IDENTIFIER_TOK ARRAY_OPTN
+   20     | IDENTIFIER_TOK ARRAY_OPTN COMMA_TOK VARS
+
+   21 ARRAY_OPTN: LSQ_TOK INT_CONST_TOK RSQ_TOK
+   22           | LSQ_TOK FLOAT_CONST_TOK RSQ_TOK
+   23           | %empty
+
+   24 ASSIGN: IDENTIFIER_TOK ASSIGN_TOK EXPRESSION
+
+   25 EXPRESSION: LPAREN_TOK EXPRESSION RPAREN_TOK
+   26           | EXPRESSION PLUS_TOK EXPRESSION
+   27           | EXPRESSION MINUS_TOK EXPRESSION
+   28           | EXPRESSION ASTERISK_TOK EXPRESSION
+   29           | EXPRESSION QUOTIENT_TOK EXPRESSION
+   30           | EXPRESSION MODULUS_TOK EXPRESSION
+   31           | MINUS_TOK EXPRESSION
+   32           | INT_CONST_TOK
+   33           | FLOAT_CONST_TOK
+   34           | IDENTIFIER_TOK
+
+   35 LOGIC_OP: AND_TOK
+   36         | OR_TOK
+
+   37 RELAT_OP: LT_EQ_TOK
+   38         | LT_TOK
+   39         | GT_EQ_TOK
+   40         | GT_TOK
+   41         | EQ_TOK
+   42         | NOT_EQ_TOK
+
+   43 COND: IF_TOK LPAREN_TOK COND_PART RPAREN_TOK INNER_BODY
+   44     | IF_TOK LPAREN_TOK COND_PART RPAREN_TOK INNER_BODY ELSE_PART
+
+   45 ELSE_PART: ELSE_TOK INNER_BODY
+
+   46 ITER: FOR_TOK LPAREN_TOK INIT_PART SEMICOLON_TOK COND_PART SEMICOLON_TOK CHANGE_PART RPAREN_TOK INNER_BODY
+   47     | WHILE_TOK LPAREN_TOK COND_PART RPAREN_TOK INNER_BODY
+   48     | DO_TOK INNER_BODY WHILE_TOK LPAREN_TOK COND_PART RPAREN_TOK SEMICOLON_TOK
+
+   49 INNER_BODY: BODY_START STMT
+   50           | BLK
+
+   51 BODY_START: %empty
+
+   52 INIT_PART: ASSIGN
+   53          | %empty
+
+   54 CHANGE_PART: IDENTIFIER_TOK PLUS_TOK PLUS_TOK
+   55            | IDENTIFIER_TOK MINUS_TOK MINUS_TOK
+   56            | %empty
+
+   57 COND_PART: CONDITIONS
+   58          | %empty
+
+   59 CONDITIONS: CONDITION
+   60           | CONDITION LOGIC_OP CONDITIONS
+
+   61 CONDITION: EXPRESSION RELAT_OP EXPRESSION
+
+   62 FN_CALL: IDENTIFIER_TOK ASSIGN_TOK FN_SIGN
+   63        | FN_SIGN
+
+   64 FN_SIGN: IDENTIFIER_TOK LPAREN_TOK OPTIONS RPAREN_TOK
+
+   65 OPTIONS: PARAMS
+   66        | %empty
+
+   67 PARAMS: PARAM
+   68       | PARAM COMMA_TOK PARAMS
+
+   69 PARAM: IDENTIFIER_TOK
+   70      | INT_CONST_TOK
+   71      | FLOAT_CONST_TOK
+
+   72 US_DEF_FNS: US_DEF_FN US_DEF_FNS
+   73           | %empty
+
+   74 US_DEF_FN: DATATYPE FN_NAME LPAREN_TOK OPTIONS_FORMAL RPAREN_TOK BLK
+
+   75 FN_NAME: IDENTIFIER_TOK
+
+   76 OPTIONS_FORMAL: PARAMS_FORMAL
+   77               | %empty
+
+   78 PARAMS_FORMAL: PARAM_FORMAL
+   79              | PARAM_FORMAL COMMA_TOK PARAMS_FORMAL
+
+   80 PARAM_FORMAL: DATATYPE IDENTIFIER_TOK
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+INT_CONST_TOK (258) 21 32 70
+FLOAT_CONST_TOK (259) 22 33 71
+INT_TOK (260) 17
+FLOAT_TOK (261) 18
+MAIN_TOK (262) 2
+LPAREN_TOK (263) 2 25 43 44 46 47 48 64 74
+RPAREN_TOK (264) 2 25 43 44 46 47 48 64 74
+LCURLY_TOK (265) 4
+RCURLY_TOK (266) 5
+LSQ_TOK (267) 21 22
+RSQ_TOK (268) 21 22
+PLUS_TOK (269) 26 54
+MINUS_TOK (270) 27 31 55
+ASTERISK_TOK (271) 28
+QUOTIENT_TOK (272) 29
+MODULUS_TOK (273) 30
+AND_TOK (274) 35
+OR_TOK (275) 36
+NOT_TOK (276)
+LT_EQ_TOK (277) 37
+LT_TOK (278) 38
+GT_EQ_TOK (279) 39
+GT_TOK (280) 40
+EQ_TOK (281) 41
+NOT_EQ_TOK (282) 42
+ASSIGN_TOK (283) 24 62
+SEMICOLON_TOK (284) 10 11 12 13 46 48
+COMMA_TOK (285) 20 68 79
+IF_TOK (286) 43 44
+ELSE_TOK (287) 45
+FOR_TOK (288) 46
+WHILE_TOK (289) 47 48
+DO_TOK (290) 48
+RETURN_TOK (291) 10
+IDENTIFIER_TOK (292) 19 20 24 34 54 55 62 64 69 75 80
+LOWER_THAN_ELSE (293)
+
+
+Nonterminals, with rules where they appear
+
+$accept (39)
+    on left: 0
+S (40)
+    on left: 1, on right: 0
+MAIN_FN (41)
+    on left: 2, on right: 1
+BLK (42)
+    on left: 3, on right: 2 6 50 74
+BLK_START (43)
+    on left: 4, on right: 3
+BLK_END (44)
+    on left: 5, on right: 3
+BLKS (45)
+    on left: 6 7, on right: 3 6
+STMTS (46)
+    on left: 8 9, on right: 3 6 8
+STMT (47)
+    on left: 10 11 12 13 14 15, on right: 8 49
+DECLARATION (48)
+    on left: 16, on right: 11
+DATATYPE (49)
+    on left: 17 18, on right: 2 16 74 80
+VARS (50)
+    on left: 19 20, on right: 16 20
+ARRAY_OPTN (51)
+    on left: 21 22 23, on right: 19 20
+ASSIGN (52)
+    on left: 24, on right: 12 52
+EXPRESSION (53)
+    on left: 25 26 27 28 29 30 31 32 33 34, on right: 10 24 25 26 27
+    28 29 30 31 61
+LOGIC_OP (54)
+    on left: 35 36, on right: 60
+RELAT_OP (55)
+    on left: 37 38 39 40 41 42, on right: 61
+COND (56)
+    on left: 43 44, on right: 15
+ELSE_PART (57)
+    on left: 45, on right: 44
+ITER (58)
+    on left: 46 47 48, on right: 14
+INNER_BODY (59)
+    on left: 49 50, on right: 43 44 45 46 47 48
+BODY_START (60)
+    on left: 51, on right: 49
+INIT_PART (61)
+    on left: 52 53, on right: 46
+CHANGE_PART (62)
+    on left: 54 55 56, on right: 46
+COND_PART (63)
+    on left: 57 58, on right: 43 44 46 47 48
+CONDITIONS (64)
+    on left: 59 60, on right: 57 60
+CONDITION (65)
+    on left: 61, on right: 59 60
+FN_CALL (66)
+    on left: 62 63, on right: 13
+FN_SIGN (67)
+    on left: 64, on right: 62 63
+OPTIONS (68)
+    on left: 65 66, on right: 64
+PARAMS (69)
+    on left: 67 68, on right: 65 68
+PARAM (70)
+    on left: 69 70 71, on right: 67 68
+US_DEF_FNS (71)
+    on left: 72 73, on right: 1 72
+US_DEF_FN (72)
+    on left: 74, on right: 72
+FN_NAME (73)
+    on left: 75, on right: 74
+OPTIONS_FORMAL (74)
+    on left: 76 77, on right: 74
+PARAMS_FORMAL (75)
+    on left: 78 79, on right: 76 79
+PARAM_FORMAL (76)
+    on left: 80, on right: 78 79
+
+
+State 0
+
+    0 $accept: . S $end
+
+    INT_TOK    shift, and go to state 1
+    FLOAT_TOK  shift, and go to state 2
+
+    S         go to state 3
+    MAIN_FN   go to state 4
+    DATATYPE  go to state 5
+
+
+State 1
+
+   17 DATATYPE: INT_TOK .
+
+    $default  reduce using rule 17 (DATATYPE)
+
+
+State 2
+
+   18 DATATYPE: FLOAT_TOK .
+
+    $default  reduce using rule 18 (DATATYPE)
+
+
+State 3
+
+    0 $accept: S . $end
+
+    $end  shift, and go to state 6
+
+
+State 4
+
+    1 S: MAIN_FN . US_DEF_FNS
+
+    INT_TOK    shift, and go to state 1
+    FLOAT_TOK  shift, and go to state 2
+
+    $default  reduce using rule 73 (US_DEF_FNS)
+
+    DATATYPE    go to state 7
+    US_DEF_FNS  go to state 8
+    US_DEF_FN   go to state 9
+
+
+State 5
+
+    2 MAIN_FN: DATATYPE . MAIN_TOK LPAREN_TOK RPAREN_TOK BLK
+
+    MAIN_TOK  shift, and go to state 10
+
+
+State 6
+
+    0 $accept: S $end .
+
+    $default  accept
+
+
+State 7
+
+   74 US_DEF_FN: DATATYPE . FN_NAME LPAREN_TOK OPTIONS_FORMAL RPAREN_TOK BLK
+
+    IDENTIFIER_TOK  shift, and go to state 11
+
+    FN_NAME  go to state 12
+
+
+State 8
+
+    1 S: MAIN_FN US_DEF_FNS .
+
+    $default  reduce using rule 1 (S)
+
+
+State 9
+
+   72 US_DEF_FNS: US_DEF_FN . US_DEF_FNS
+
+    INT_TOK    shift, and go to state 1
+    FLOAT_TOK  shift, and go to state 2
+
+    $default  reduce using rule 73 (US_DEF_FNS)
+
+    DATATYPE    go to state 7
+    US_DEF_FNS  go to state 13
+    US_DEF_FN   go to state 9
+
+
+State 10
+
+    2 MAIN_FN: DATATYPE MAIN_TOK . LPAREN_TOK RPAREN_TOK BLK
+
+    LPAREN_TOK  shift, and go to state 14
+
+
+State 11
+
+   75 FN_NAME: IDENTIFIER_TOK .
+
+    $default  reduce using rule 75 (FN_NAME)
+
+
+State 12
+
+   74 US_DEF_FN: DATATYPE FN_NAME . LPAREN_TOK OPTIONS_FORMAL RPAREN_TOK BLK
+
+    LPAREN_TOK  shift, and go to state 15
+
+
+State 13
+
+   72 US_DEF_FNS: US_DEF_FN US_DEF_FNS .
+
+    $default  reduce using rule 72 (US_DEF_FNS)
+
+
+State 14
+
+    2 MAIN_FN: DATATYPE MAIN_TOK LPAREN_TOK . RPAREN_TOK BLK
+
+    RPAREN_TOK  shift, and go to state 16
+
+
+State 15
+
+   74 US_DEF_FN: DATATYPE FN_NAME LPAREN_TOK . OPTIONS_FORMAL RPAREN_TOK BLK
+
+    INT_TOK    shift, and go to state 1
+    FLOAT_TOK  shift, and go to state 2
+
+    $default  reduce using rule 77 (OPTIONS_FORMAL)
+
+    DATATYPE        go to state 17
+    OPTIONS_FORMAL  go to state 18
+    PARAMS_FORMAL   go to state 19
+    PARAM_FORMAL    go to state 20
+
+
+State 16
+
+    2 MAIN_FN: DATATYPE MAIN_TOK LPAREN_TOK RPAREN_TOK . BLK
+
+    LCURLY_TOK  shift, and go to state 21
+
+    BLK        go to state 22
+    BLK_START  go to state 23
+
+
+State 17
+
+   80 PARAM_FORMAL: DATATYPE . IDENTIFIER_TOK
+
+    IDENTIFIER_TOK  shift, and go to state 24
+
+
+State 18
+
+   74 US_DEF_FN: DATATYPE FN_NAME LPAREN_TOK OPTIONS_FORMAL . RPAREN_TOK BLK
+
+    RPAREN_TOK  shift, and go to state 25
+
+
+State 19
+
+   76 OPTIONS_FORMAL: PARAMS_FORMAL .
+
+    $default  reduce using rule 76 (OPTIONS_FORMAL)
+
+
+State 20
+
+   78 PARAMS_FORMAL: PARAM_FORMAL .
+   79              | PARAM_FORMAL . COMMA_TOK PARAMS_FORMAL
+
+    COMMA_TOK  shift, and go to state 26
+
+    $default  reduce using rule 78 (PARAMS_FORMAL)
+
+
+State 21
+
+    4 BLK_START: LCURLY_TOK .
+
+    $default  reduce using rule 4 (BLK_START)
+
+
+State 22
+
+    2 MAIN_FN: DATATYPE MAIN_TOK LPAREN_TOK RPAREN_TOK BLK .
+
+    $default  reduce using rule 2 (MAIN_FN)
+
+
+State 23
+
+    3 BLK: BLK_START . STMTS BLKS BLK_END
+
+    $default  reduce using rule 9 (STMTS)
+
+    STMTS  go to state 27
+
+
+State 24
+
+   80 PARAM_FORMAL: DATATYPE IDENTIFIER_TOK .
+
+    $default  reduce using rule 80 (PARAM_FORMAL)
+
+
+State 25
+
+   74 US_DEF_FN: DATATYPE FN_NAME LPAREN_TOK OPTIONS_FORMAL RPAREN_TOK . BLK
+
+    LCURLY_TOK  shift, and go to state 21
+
+    BLK        go to state 28
+    BLK_START  go to state 23
+
+
+State 26
+
+   79 PARAMS_FORMAL: PARAM_FORMAL COMMA_TOK . PARAMS_FORMAL
+
+    INT_TOK    shift, and go to state 1
+    FLOAT_TOK  shift, and go to state 2
+
+    DATATYPE       go to state 17
+    PARAMS_FORMAL  go to state 29
+    PARAM_FORMAL   go to state 20
+
+
+State 27
+
+    3 BLK: BLK_START STMTS . BLKS BLK_END
+    8 STMTS: STMTS . STMT
+
+    INT_TOK         shift, and go to state 1
+    FLOAT_TOK       shift, and go to state 2
+    LCURLY_TOK      shift, and go to state 21
+    IF_TOK          shift, and go to state 30
+    FOR_TOK         shift, and go to state 31
+    WHILE_TOK       shift, and go to state 32
+    DO_TOK          shift, and go to state 33
+    RETURN_TOK      shift, and go to state 34
+    IDENTIFIER_TOK  shift, and go to state 35
+
+    $default  reduce using rule 7 (BLKS)
+
+    BLK          go to state 36
+    BLK_START    go to state 23
+    BLKS         go to state 37
+    STMT         go to state 38
+    DECLARATION  go to state 39
+    DATATYPE     go to state 40
+    ASSIGN       go to state 41
+    COND         go to state 42
+    ITER         go to state 43
+    FN_CALL      go to state 44
+    FN_SIGN      go to state 45
+
+
+State 28
+
+   74 US_DEF_FN: DATATYPE FN_NAME LPAREN_TOK OPTIONS_FORMAL RPAREN_TOK BLK .
+
+    $default  reduce using rule 74 (US_DEF_FN)
+
+
+State 29
+
+   79 PARAMS_FORMAL: PARAM_FORMAL COMMA_TOK PARAMS_FORMAL .
+
+    $default  reduce using rule 79 (PARAMS_FORMAL)
+
+
+State 30
+
+   43 COND: IF_TOK . LPAREN_TOK COND_PART RPAREN_TOK INNER_BODY
+   44     | IF_TOK . LPAREN_TOK COND_PART RPAREN_TOK INNER_BODY ELSE_PART
+
+    LPAREN_TOK  shift, and go to state 46
+
+
+State 31
+
+   46 ITER: FOR_TOK . LPAREN_TOK INIT_PART SEMICOLON_TOK COND_PART SEMICOLON_TOK CHANGE_PART RPAREN_TOK INNER_BODY
+
+    LPAREN_TOK  shift, and go to state 47
+
+
+State 32
+
+   47 ITER: WHILE_TOK . LPAREN_TOK COND_PART RPAREN_TOK INNER_BODY
+
+    LPAREN_TOK  shift, and go to state 48
+
+
+State 33
+
+   48 ITER: DO_TOK . INNER_BODY WHILE_TOK LPAREN_TOK COND_PART RPAREN_TOK SEMICOLON_TOK
+
+    LCURLY_TOK  shift, and go to state 21
+
+    $default  reduce using rule 51 (BODY_START)
+
+    BLK         go to state 49
+    BLK_START   go to state 23
+    INNER_BODY  go to state 50
+    BODY_START  go to state 51
+
+
+State 34
+
+   10 STMT: RETURN_TOK . EXPRESSION SEMICOLON_TOK
+
+    INT_CONST_TOK    shift, and go to state 52
+    FLOAT_CONST_TOK  shift, and go to state 53
+    LPAREN_TOK       shift, and go to state 54
+    MINUS_TOK        shift, and go to state 55
+    IDENTIFIER_TOK   shift, and go to state 56
+
+    EXPRESSION  go to state 57
+
+
+State 35
+
+   24 ASSIGN: IDENTIFIER_TOK . ASSIGN_TOK EXPRESSION
+   62 FN_CALL: IDENTIFIER_TOK . ASSIGN_TOK FN_SIGN
+   64 FN_SIGN: IDENTIFIER_TOK . LPAREN_TOK OPTIONS RPAREN_TOK
+
+    LPAREN_TOK  shift, and go to state 58
+    ASSIGN_TOK  shift, and go to state 59
+
+
+State 36
+
+    6 BLKS: BLK . STMTS BLKS
+
+    $default  reduce using rule 9 (STMTS)
+
+    STMTS  go to state 60
+
+
+State 37
+
+    3 BLK: BLK_START STMTS BLKS . BLK_END
+
+    RCURLY_TOK  shift, and go to state 61
+
+    BLK_END  go to state 62
+
+
+State 38
+
+    8 STMTS: STMTS STMT .
+
+    $default  reduce using rule 8 (STMTS)
+
+
+State 39
+
+   11 STMT: DECLARATION . SEMICOLON_TOK
+
+    SEMICOLON_TOK  shift, and go to state 63
+
+
+State 40
+
+   16 DECLARATION: DATATYPE . VARS
+
+    IDENTIFIER_TOK  shift, and go to state 64
+
+    VARS  go to state 65
+
+
+State 41
+
+   12 STMT: ASSIGN . SEMICOLON_TOK
+
+    SEMICOLON_TOK  shift, and go to state 66
+
+
+State 42
+
+   15 STMT: COND .
+
+    $default  reduce using rule 15 (STMT)
+
+
+State 43
+
+   14 STMT: ITER .
+
+    $default  reduce using rule 14 (STMT)
+
+
+State 44
+
+   13 STMT: FN_CALL . SEMICOLON_TOK
+
+    SEMICOLON_TOK  shift, and go to state 67
+
+
+State 45
+
+   63 FN_CALL: FN_SIGN .
+
+    $default  reduce using rule 63 (FN_CALL)
+
+
+State 46
+
+   43 COND: IF_TOK LPAREN_TOK . COND_PART RPAREN_TOK INNER_BODY
+   44     | IF_TOK LPAREN_TOK . COND_PART RPAREN_TOK INNER_BODY ELSE_PART
+
+    INT_CONST_TOK    shift, and go to state 52
+    FLOAT_CONST_TOK  shift, and go to state 53
+    LPAREN_TOK       shift, and go to state 54
+    MINUS_TOK        shift, and go to state 55
+    IDENTIFIER_TOK   shift, and go to state 56
+
+    $default  reduce using rule 58 (COND_PART)
+
+    EXPRESSION  go to state 68
+    COND_PART   go to state 69
+    CONDITIONS  go to state 70
+    CONDITION   go to state 71
+
+
+State 47
+
+   46 ITER: FOR_TOK LPAREN_TOK . INIT_PART SEMICOLON_TOK COND_PART SEMICOLON_TOK CHANGE_PART RPAREN_TOK INNER_BODY
+
+    IDENTIFIER_TOK  shift, and go to state 72
+
+    $default  reduce using rule 53 (INIT_PART)
+
+    ASSIGN     go to state 73
+    INIT_PART  go to state 74
+
+
+State 48
+
+   47 ITER: WHILE_TOK LPAREN_TOK . COND_PART RPAREN_TOK INNER_BODY
+
+    INT_CONST_TOK    shift, and go to state 52
+    FLOAT_CONST_TOK  shift, and go to state 53
+    LPAREN_TOK       shift, and go to state 54
+    MINUS_TOK        shift, and go to state 55
+    IDENTIFIER_TOK   shift, and go to state 56
+
+    $default  reduce using rule 58 (COND_PART)
+
+    EXPRESSION  go to state 68
+    COND_PART   go to state 75
+    CONDITIONS  go to state 70
+    CONDITION   go to state 71
+
+
+State 49
+
+   50 INNER_BODY: BLK .
+
+    $default  reduce using rule 50 (INNER_BODY)
+
+
+State 50
+
+   48 ITER: DO_TOK INNER_BODY . WHILE_TOK LPAREN_TOK COND_PART RPAREN_TOK SEMICOLON_TOK
+
+    WHILE_TOK  shift, and go to state 76
+
+
+State 51
+
+   49 INNER_BODY: BODY_START . STMT
+
+    INT_TOK         shift, and go to state 1
+    FLOAT_TOK       shift, and go to state 2
+    IF_TOK          shift, and go to state 30
+    FOR_TOK         shift, and go to state 31
+    WHILE_TOK       shift, and go to state 32
+    DO_TOK          shift, and go to state 33
+    RETURN_TOK      shift, and go to state 34
+    IDENTIFIER_TOK  shift, and go to state 35
+
+    STMT         go to state 77
+    DECLARATION  go to state 39
+    DATATYPE     go to state 40
+    ASSIGN       go to state 41
+    COND         go to state 42
+    ITER         go to state 43
+    FN_CALL      go to state 44
+    FN_SIGN      go to state 45
+
+
+State 52
+
+   32 EXPRESSION: INT_CONST_TOK .
+
+    $default  reduce using rule 32 (EXPRESSION)
+
+
+State 53
+
+   33 EXPRESSION: FLOAT_CONST_TOK .
+
+    $default  reduce using rule 33 (EXPRESSION)
+
+
+State 54
+
+   25 EXPRESSION: LPAREN_TOK . EXPRESSION RPAREN_TOK
+
+    INT_CONST_TOK    shift, and go to state 52
+    FLOAT_CONST_TOK  shift, and go to state 53
+    LPAREN_TOK       shift, and go to state 54
+    MINUS_TOK        shift, and go to state 55
+    IDENTIFIER_TOK   shift, and go to state 56
+
+    EXPRESSION  go to state 78
+
+
+State 55
+
+   31 EXPRESSION: MINUS_TOK . EXPRESSION
+
+    INT_CONST_TOK    shift, and go to state 52
+    FLOAT_CONST_TOK  shift, and go to state 53
+    LPAREN_TOK       shift, and go to state 54
+    MINUS_TOK        shift, and go to state 55
+    IDENTIFIER_TOK   shift, and go to state 56
+
+    EXPRESSION  go to state 79
+
+
+State 56
+
+   34 EXPRESSION: IDENTIFIER_TOK .
+
+    $default  reduce using rule 34 (EXPRESSION)
+
+
+State 57
+
+   10 STMT: RETURN_TOK EXPRESSION . SEMICOLON_TOK
+   26 EXPRESSION: EXPRESSION . PLUS_TOK EXPRESSION
+   27           | EXPRESSION . MINUS_TOK EXPRESSION
+   28           | EXPRESSION . ASTERISK_TOK EXPRESSION
+   29           | EXPRESSION . QUOTIENT_TOK EXPRESSION
+   30           | EXPRESSION . MODULUS_TOK EXPRESSION
+
+    PLUS_TOK       shift, and go to state 80
+    MINUS_TOK      shift, and go to state 81
+    ASTERISK_TOK   shift, and go to state 82
+    QUOTIENT_TOK   shift, and go to state 83
+    MODULUS_TOK    shift, and go to state 84
+    SEMICOLON_TOK  shift, and go to state 85
+
+
+State 58
+
+   64 FN_SIGN: IDENTIFIER_TOK LPAREN_TOK . OPTIONS RPAREN_TOK
+
+    INT_CONST_TOK    shift, and go to state 86
+    FLOAT_CONST_TOK  shift, and go to state 87
+    IDENTIFIER_TOK   shift, and go to state 88
+
+    $default  reduce using rule 66 (OPTIONS)
+
+    OPTIONS  go to state 89
+    PARAMS   go to state 90
+    PARAM    go to state 91
+
+
+State 59
+
+   24 ASSIGN: IDENTIFIER_TOK ASSIGN_TOK . EXPRESSION
+   62 FN_CALL: IDENTIFIER_TOK ASSIGN_TOK . FN_SIGN
+
+    INT_CONST_TOK    shift, and go to state 52
+    FLOAT_CONST_TOK  shift, and go to state 53
+    LPAREN_TOK       shift, and go to state 54
+    MINUS_TOK        shift, and go to state 55
+    IDENTIFIER_TOK   shift, and go to state 92
+
+    EXPRESSION  go to state 93
+    FN_SIGN     go to state 94
+
+
+State 60
+
+    6 BLKS: BLK STMTS . BLKS
+    8 STMTS: STMTS . STMT
+
+    INT_TOK         shift, and go to state 1
+    FLOAT_TOK       shift, and go to state 2
+    LCURLY_TOK      shift, and go to state 21
+    IF_TOK          shift, and go to state 30
+    FOR_TOK         shift, and go to state 31
+    WHILE_TOK       shift, and go to state 32
+    DO_TOK          shift, and go to state 33
+    RETURN_TOK      shift, and go to state 34
+    IDENTIFIER_TOK  shift, and go to state 35
+
+    $default  reduce using rule 7 (BLKS)
+
+    BLK          go to state 36
+    BLK_START    go to state 23
+    BLKS         go to state 95
+    STMT         go to state 38
+    DECLARATION  go to state 39
+    DATATYPE     go to state 40
+    ASSIGN       go to state 41
+    COND         go to state 42
+    ITER         go to state 43
+    FN_CALL      go to state 44
+    FN_SIGN      go to state 45
+
+
+State 61
+
+    5 BLK_END: RCURLY_TOK .
+
+    $default  reduce using rule 5 (BLK_END)
+
+
+State 62
+
+    3 BLK: BLK_START STMTS BLKS BLK_END .
+
+    $default  reduce using rule 3 (BLK)
+
+
+State 63
+
+   11 STMT: DECLARATION SEMICOLON_TOK .
+
+    $default  reduce using rule 11 (STMT)
+
+
+State 64
+
+   19 VARS: IDENTIFIER_TOK . ARRAY_OPTN
+   20     | IDENTIFIER_TOK . ARRAY_OPTN COMMA_TOK VARS
+
+    LSQ_TOK  shift, and go to state 96
+
+    $default  reduce using rule 23 (ARRAY_OPTN)
+
+    ARRAY_OPTN  go to state 97
+
+
+State 65
+
+   16 DECLARATION: DATATYPE VARS .
+
+    $default  reduce using rule 16 (DECLARATION)
+
+
+State 66
+
+   12 STMT: ASSIGN SEMICOLON_TOK .
+
+    $default  reduce using rule 12 (STMT)
+
+
+State 67
+
+   13 STMT: FN_CALL SEMICOLON_TOK .
+
+    $default  reduce using rule 13 (STMT)
+
+
+State 68
+
+   26 EXPRESSION: EXPRESSION . PLUS_TOK EXPRESSION
+   27           | EXPRESSION . MINUS_TOK EXPRESSION
+   28           | EXPRESSION . ASTERISK_TOK EXPRESSION
+   29           | EXPRESSION . QUOTIENT_TOK EXPRESSION
+   30           | EXPRESSION . MODULUS_TOK EXPRESSION
+   61 CONDITION: EXPRESSION . RELAT_OP EXPRESSION
+
+    PLUS_TOK      shift, and go to state 80
+    MINUS_TOK     shift, and go to state 81
+    ASTERISK_TOK  shift, and go to state 82
+    QUOTIENT_TOK  shift, and go to state 83
+    MODULUS_TOK   shift, and go to state 84
+    LT_EQ_TOK     shift, and go to state 98
+    LT_TOK        shift, and go to state 99
+    GT_EQ_TOK     shift, and go to state 100
+    GT_TOK        shift, and go to state 101
+    EQ_TOK        shift, and go to state 102
+    NOT_EQ_TOK    shift, and go to state 103
+
+    RELAT_OP  go to state 104
+
+
+State 69
+
+   43 COND: IF_TOK LPAREN_TOK COND_PART . RPAREN_TOK INNER_BODY
+   44     | IF_TOK LPAREN_TOK COND_PART . RPAREN_TOK INNER_BODY ELSE_PART
+
+    RPAREN_TOK  shift, and go to state 105
+
+
+State 70
+
+   57 COND_PART: CONDITIONS .
+
+    $default  reduce using rule 57 (COND_PART)
+
+
+State 71
+
+   59 CONDITIONS: CONDITION .
+   60           | CONDITION . LOGIC_OP CONDITIONS
+
+    AND_TOK  shift, and go to state 106
+    OR_TOK   shift, and go to state 107
+
+    $default  reduce using rule 59 (CONDITIONS)
+
+    LOGIC_OP  go to state 108
+
+
+State 72
+
+   24 ASSIGN: IDENTIFIER_TOK . ASSIGN_TOK EXPRESSION
+
+    ASSIGN_TOK  shift, and go to state 109
+
+
+State 73
+
+   52 INIT_PART: ASSIGN .
+
+    $default  reduce using rule 52 (INIT_PART)
+
+
+State 74
+
+   46 ITER: FOR_TOK LPAREN_TOK INIT_PART . SEMICOLON_TOK COND_PART SEMICOLON_TOK CHANGE_PART RPAREN_TOK INNER_BODY
+
+    SEMICOLON_TOK  shift, and go to state 110
+
+
+State 75
+
+   47 ITER: WHILE_TOK LPAREN_TOK COND_PART . RPAREN_TOK INNER_BODY
+
+    RPAREN_TOK  shift, and go to state 111
+
+
+State 76
+
+   48 ITER: DO_TOK INNER_BODY WHILE_TOK . LPAREN_TOK COND_PART RPAREN_TOK SEMICOLON_TOK
+
+    LPAREN_TOK  shift, and go to state 112
+
+
+State 77
+
+   49 INNER_BODY: BODY_START STMT .
+
+    $default  reduce using rule 49 (INNER_BODY)
+
+
+State 78
+
+   25 EXPRESSION: LPAREN_TOK EXPRESSION . RPAREN_TOK
+   26           | EXPRESSION . PLUS_TOK EXPRESSION
+   27           | EXPRESSION . MINUS_TOK EXPRESSION
+   28           | EXPRESSION . ASTERISK_TOK EXPRESSION
+   29           | EXPRESSION . QUOTIENT_TOK EXPRESSION
+   30           | EXPRESSION . MODULUS_TOK EXPRESSION
+
+    RPAREN_TOK    shift, and go to state 113
+    PLUS_TOK      shift, and go to state 80
+    MINUS_TOK     shift, and go to state 81
+    ASTERISK_TOK  shift, and go to state 82
+    QUOTIENT_TOK  shift, and go to state 83
+    MODULUS_TOK   shift, and go to state 84
+
+
+State 79
+
+   26 EXPRESSION: EXPRESSION . PLUS_TOK EXPRESSION
+   27           | EXPRESSION . MINUS_TOK EXPRESSION
+   28           | EXPRESSION . ASTERISK_TOK EXPRESSION
+   29           | EXPRESSION . QUOTIENT_TOK EXPRESSION
+   30           | EXPRESSION . MODULUS_TOK EXPRESSION
+   31           | MINUS_TOK EXPRESSION .
+
+    ASTERISK_TOK  shift, and go to state 82
+    QUOTIENT_TOK  shift, and go to state 83
+    MODULUS_TOK   shift, and go to state 84
+
+    $default  reduce using rule 31 (EXPRESSION)
+
+
+State 80
+
+   26 EXPRESSION: EXPRESSION PLUS_TOK . EXPRESSION
+
+    INT_CONST_TOK    shift, and go to state 52
+    FLOAT_CONST_TOK  shift, and go to state 53
+    LPAREN_TOK       shift, and go to state 54
+    MINUS_TOK        shift, and go to state 55
+    IDENTIFIER_TOK   shift, and go to state 56
+
+    EXPRESSION  go to state 114
+
+
+State 81
+
+   27 EXPRESSION: EXPRESSION MINUS_TOK . EXPRESSION
+
+    INT_CONST_TOK    shift, and go to state 52
+    FLOAT_CONST_TOK  shift, and go to state 53
+    LPAREN_TOK       shift, and go to state 54
+    MINUS_TOK        shift, and go to state 55
+    IDENTIFIER_TOK   shift, and go to state 56
+
+    EXPRESSION  go to state 115
+
+
+State 82
+
+   28 EXPRESSION: EXPRESSION ASTERISK_TOK . EXPRESSION
+
+    INT_CONST_TOK    shift, and go to state 52
+    FLOAT_CONST_TOK  shift, and go to state 53
+    LPAREN_TOK       shift, and go to state 54
+    MINUS_TOK        shift, and go to state 55
+    IDENTIFIER_TOK   shift, and go to state 56
+
+    EXPRESSION  go to state 116
+
+
+State 83
+
+   29 EXPRESSION: EXPRESSION QUOTIENT_TOK . EXPRESSION
+
+    INT_CONST_TOK    shift, and go to state 52
+    FLOAT_CONST_TOK  shift, and go to state 53
+    LPAREN_TOK       shift, and go to state 54
+    MINUS_TOK        shift, and go to state 55
+    IDENTIFIER_TOK   shift, and go to state 56
+
+    EXPRESSION  go to state 117
+
+
+State 84
+
+   30 EXPRESSION: EXPRESSION MODULUS_TOK . EXPRESSION
+
+    INT_CONST_TOK    shift, and go to state 52
+    FLOAT_CONST_TOK  shift, and go to state 53
+    LPAREN_TOK       shift, and go to state 54
+    MINUS_TOK        shift, and go to state 55
+    IDENTIFIER_TOK   shift, and go to state 56
+
+    EXPRESSION  go to state 118
+
+
+State 85
+
+   10 STMT: RETURN_TOK EXPRESSION SEMICOLON_TOK .
+
+    $default  reduce using rule 10 (STMT)
+
+
+State 86
+
+   70 PARAM: INT_CONST_TOK .
+
+    $default  reduce using rule 70 (PARAM)
+
+
+State 87
+
+   71 PARAM: FLOAT_CONST_TOK .
+
+    $default  reduce using rule 71 (PARAM)
+
+
+State 88
+
+   69 PARAM: IDENTIFIER_TOK .
+
+    $default  reduce using rule 69 (PARAM)
+
+
+State 89
+
+   64 FN_SIGN: IDENTIFIER_TOK LPAREN_TOK OPTIONS . RPAREN_TOK
+
+    RPAREN_TOK  shift, and go to state 119
+
+
+State 90
+
+   65 OPTIONS: PARAMS .
+
+    $default  reduce using rule 65 (OPTIONS)
+
+
+State 91
+
+   67 PARAMS: PARAM .
+   68       | PARAM . COMMA_TOK PARAMS
+
+    COMMA_TOK  shift, and go to state 120
+
+    $default  reduce using rule 67 (PARAMS)
+
+
+State 92
+
+   34 EXPRESSION: IDENTIFIER_TOK .
+   64 FN_SIGN: IDENTIFIER_TOK . LPAREN_TOK OPTIONS RPAREN_TOK
+
+    LPAREN_TOK  shift, and go to state 58
+
+    $default  reduce using rule 34 (EXPRESSION)
+
+
+State 93
+
+   24 ASSIGN: IDENTIFIER_TOK ASSIGN_TOK EXPRESSION .
+   26 EXPRESSION: EXPRESSION . PLUS_TOK EXPRESSION
+   27           | EXPRESSION . MINUS_TOK EXPRESSION
+   28           | EXPRESSION . ASTERISK_TOK EXPRESSION
+   29           | EXPRESSION . QUOTIENT_TOK EXPRESSION
+   30           | EXPRESSION . MODULUS_TOK EXPRESSION
+
+    PLUS_TOK      shift, and go to state 80
+    MINUS_TOK     shift, and go to state 81
+    ASTERISK_TOK  shift, and go to state 82
+    QUOTIENT_TOK  shift, and go to state 83
+    MODULUS_TOK   shift, and go to state 84
+
+    $default  reduce using rule 24 (ASSIGN)
+
+
+State 94
+
+   62 FN_CALL: IDENTIFIER_TOK ASSIGN_TOK FN_SIGN .
+
+    $default  reduce using rule 62 (FN_CALL)
+
+
+State 95
+
+    6 BLKS: BLK STMTS BLKS .
+
+    $default  reduce using rule 6 (BLKS)
+
+
+State 96
+
+   21 ARRAY_OPTN: LSQ_TOK . INT_CONST_TOK RSQ_TOK
+   22           | LSQ_TOK . FLOAT_CONST_TOK RSQ_TOK
+
+    INT_CONST_TOK    shift, and go to state 121
+    FLOAT_CONST_TOK  shift, and go to state 122
+
+
+State 97
+
+   19 VARS: IDENTIFIER_TOK ARRAY_OPTN .
+   20     | IDENTIFIER_TOK ARRAY_OPTN . COMMA_TOK VARS
+
+    COMMA_TOK  shift, and go to state 123
+
+    $default  reduce using rule 19 (VARS)
+
+
+State 98
+
+   37 RELAT_OP: LT_EQ_TOK .
+
+    $default  reduce using rule 37 (RELAT_OP)
+
+
+State 99
+
+   38 RELAT_OP: LT_TOK .
+
+    $default  reduce using rule 38 (RELAT_OP)
+
+
+State 100
+
+   39 RELAT_OP: GT_EQ_TOK .
+
+    $default  reduce using rule 39 (RELAT_OP)
+
+
+State 101
+
+   40 RELAT_OP: GT_TOK .
+
+    $default  reduce using rule 40 (RELAT_OP)
+
+
+State 102
+
+   41 RELAT_OP: EQ_TOK .
+
+    $default  reduce using rule 41 (RELAT_OP)
+
+
+State 103
+
+   42 RELAT_OP: NOT_EQ_TOK .
+
+    $default  reduce using rule 42 (RELAT_OP)
+
+
+State 104
+
+   61 CONDITION: EXPRESSION RELAT_OP . EXPRESSION
+
+    INT_CONST_TOK    shift, and go to state 52
+    FLOAT_CONST_TOK  shift, and go to state 53
+    LPAREN_TOK       shift, and go to state 54
+    MINUS_TOK        shift, and go to state 55
+    IDENTIFIER_TOK   shift, and go to state 56
+
+    EXPRESSION  go to state 124
+
+
+State 105
+
+   43 COND: IF_TOK LPAREN_TOK COND_PART RPAREN_TOK . INNER_BODY
+   44     | IF_TOK LPAREN_TOK COND_PART RPAREN_TOK . INNER_BODY ELSE_PART
+
+    LCURLY_TOK  shift, and go to state 21
+
+    $default  reduce using rule 51 (BODY_START)
+
+    BLK         go to state 49
+    BLK_START   go to state 23
+    INNER_BODY  go to state 125
+    BODY_START  go to state 51
+
+
+State 106
+
+   35 LOGIC_OP: AND_TOK .
+
+    $default  reduce using rule 35 (LOGIC_OP)
+
+
+State 107
+
+   36 LOGIC_OP: OR_TOK .
+
+    $default  reduce using rule 36 (LOGIC_OP)
+
+
+State 108
+
+   60 CONDITIONS: CONDITION LOGIC_OP . CONDITIONS
+
+    INT_CONST_TOK    shift, and go to state 52
+    FLOAT_CONST_TOK  shift, and go to state 53
+    LPAREN_TOK       shift, and go to state 54
+    MINUS_TOK        shift, and go to state 55
+    IDENTIFIER_TOK   shift, and go to state 56
+
+    EXPRESSION  go to state 68
+    CONDITIONS  go to state 126
+    CONDITION   go to state 71
+
+
+State 109
+
+   24 ASSIGN: IDENTIFIER_TOK ASSIGN_TOK . EXPRESSION
+
+    INT_CONST_TOK    shift, and go to state 52
+    FLOAT_CONST_TOK  shift, and go to state 53
+    LPAREN_TOK       shift, and go to state 54
+    MINUS_TOK        shift, and go to state 55
+    IDENTIFIER_TOK   shift, and go to state 56
+
+    EXPRESSION  go to state 93
+
+
+State 110
+
+   46 ITER: FOR_TOK LPAREN_TOK INIT_PART SEMICOLON_TOK . COND_PART SEMICOLON_TOK CHANGE_PART RPAREN_TOK INNER_BODY
+
+    INT_CONST_TOK    shift, and go to state 52
+    FLOAT_CONST_TOK  shift, and go to state 53
+    LPAREN_TOK       shift, and go to state 54
+    MINUS_TOK        shift, and go to state 55
+    IDENTIFIER_TOK   shift, and go to state 56
+
+    $default  reduce using rule 58 (COND_PART)
+
+    EXPRESSION  go to state 68
+    COND_PART   go to state 127
+    CONDITIONS  go to state 70
+    CONDITION   go to state 71
+
+
+State 111
+
+   47 ITER: WHILE_TOK LPAREN_TOK COND_PART RPAREN_TOK . INNER_BODY
+
+    LCURLY_TOK  shift, and go to state 21
+
+    $default  reduce using rule 51 (BODY_START)
+
+    BLK         go to state 49
+    BLK_START   go to state 23
+    INNER_BODY  go to state 128
+    BODY_START  go to state 51
+
+
+State 112
+
+   48 ITER: DO_TOK INNER_BODY WHILE_TOK LPAREN_TOK . COND_PART RPAREN_TOK SEMICOLON_TOK
+
+    INT_CONST_TOK    shift, and go to state 52
+    FLOAT_CONST_TOK  shift, and go to state 53
+    LPAREN_TOK       shift, and go to state 54
+    MINUS_TOK        shift, and go to state 55
+    IDENTIFIER_TOK   shift, and go to state 56
+
+    $default  reduce using rule 58 (COND_PART)
+
+    EXPRESSION  go to state 68
+    COND_PART   go to state 129
+    CONDITIONS  go to state 70
+    CONDITION   go to state 71
+
+
+State 113
+
+   25 EXPRESSION: LPAREN_TOK EXPRESSION RPAREN_TOK .
+
+    $default  reduce using rule 25 (EXPRESSION)
+
+
+State 114
+
+   26 EXPRESSION: EXPRESSION . PLUS_TOK EXPRESSION
+   26           | EXPRESSION PLUS_TOK EXPRESSION .
+   27           | EXPRESSION . MINUS_TOK EXPRESSION
+   28           | EXPRESSION . ASTERISK_TOK EXPRESSION
+   29           | EXPRESSION . QUOTIENT_TOK EXPRESSION
+   30           | EXPRESSION . MODULUS_TOK EXPRESSION
+
+    ASTERISK_TOK  shift, and go to state 82
+    QUOTIENT_TOK  shift, and go to state 83
+    MODULUS_TOK   shift, and go to state 84
+
+    $default  reduce using rule 26 (EXPRESSION)
+
+
+State 115
+
+   26 EXPRESSION: EXPRESSION . PLUS_TOK EXPRESSION
+   27           | EXPRESSION . MINUS_TOK EXPRESSION
+   27           | EXPRESSION MINUS_TOK EXPRESSION .
+   28           | EXPRESSION . ASTERISK_TOK EXPRESSION
+   29           | EXPRESSION . QUOTIENT_TOK EXPRESSION
+   30           | EXPRESSION . MODULUS_TOK EXPRESSION
+
+    ASTERISK_TOK  shift, and go to state 82
+    QUOTIENT_TOK  shift, and go to state 83
+    MODULUS_TOK   shift, and go to state 84
+
+    $default  reduce using rule 27 (EXPRESSION)
+
+
+State 116
+
+   26 EXPRESSION: EXPRESSION . PLUS_TOK EXPRESSION
+   27           | EXPRESSION . MINUS_TOK EXPRESSION
+   28           | EXPRESSION . ASTERISK_TOK EXPRESSION
+   28           | EXPRESSION ASTERISK_TOK EXPRESSION .
+   29           | EXPRESSION . QUOTIENT_TOK EXPRESSION
+   30           | EXPRESSION . MODULUS_TOK EXPRESSION
+
+    $default  reduce using rule 28 (EXPRESSION)
+
+
+State 117
+
+   26 EXPRESSION: EXPRESSION . PLUS_TOK EXPRESSION
+   27           | EXPRESSION . MINUS_TOK EXPRESSION
+   28           | EXPRESSION . ASTERISK_TOK EXPRESSION
+   29           | EXPRESSION . QUOTIENT_TOK EXPRESSION
+   29           | EXPRESSION QUOTIENT_TOK EXPRESSION .
+   30           | EXPRESSION . MODULUS_TOK EXPRESSION
+
+    $default  reduce using rule 29 (EXPRESSION)
+
+
+State 118
+
+   26 EXPRESSION: EXPRESSION . PLUS_TOK EXPRESSION
+   27           | EXPRESSION . MINUS_TOK EXPRESSION
+   28           | EXPRESSION . ASTERISK_TOK EXPRESSION
+   29           | EXPRESSION . QUOTIENT_TOK EXPRESSION
+   30           | EXPRESSION . MODULUS_TOK EXPRESSION
+   30           | EXPRESSION MODULUS_TOK EXPRESSION .
+
+    $default  reduce using rule 30 (EXPRESSION)
+
+
+State 119
+
+   64 FN_SIGN: IDENTIFIER_TOK LPAREN_TOK OPTIONS RPAREN_TOK .
+
+    $default  reduce using rule 64 (FN_SIGN)
+
+
+State 120
+
+   68 PARAMS: PARAM COMMA_TOK . PARAMS
+
+    INT_CONST_TOK    shift, and go to state 86
+    FLOAT_CONST_TOK  shift, and go to state 87
+    IDENTIFIER_TOK   shift, and go to state 88
+
+    PARAMS  go to state 130
+    PARAM   go to state 91
+
+
+State 121
+
+   21 ARRAY_OPTN: LSQ_TOK INT_CONST_TOK . RSQ_TOK
+
+    RSQ_TOK  shift, and go to state 131
+
+
+State 122
+
+   22 ARRAY_OPTN: LSQ_TOK FLOAT_CONST_TOK . RSQ_TOK
+
+    RSQ_TOK  shift, and go to state 132
+
+
+State 123
+
+   20 VARS: IDENTIFIER_TOK ARRAY_OPTN COMMA_TOK . VARS
+
+    IDENTIFIER_TOK  shift, and go to state 64
+
+    VARS  go to state 133
+
+
+State 124
+
+   26 EXPRESSION: EXPRESSION . PLUS_TOK EXPRESSION
+   27           | EXPRESSION . MINUS_TOK EXPRESSION
+   28           | EXPRESSION . ASTERISK_TOK EXPRESSION
+   29           | EXPRESSION . QUOTIENT_TOK EXPRESSION
+   30           | EXPRESSION . MODULUS_TOK EXPRESSION
+   61 CONDITION: EXPRESSION RELAT_OP EXPRESSION .
+
+    PLUS_TOK      shift, and go to state 80
+    MINUS_TOK     shift, and go to state 81
+    ASTERISK_TOK  shift, and go to state 82
+    QUOTIENT_TOK  shift, and go to state 83
+    MODULUS_TOK   shift, and go to state 84
+
+    $default  reduce using rule 61 (CONDITION)
+
+
+State 125
+
+   43 COND: IF_TOK LPAREN_TOK COND_PART RPAREN_TOK INNER_BODY .
+   44     | IF_TOK LPAREN_TOK COND_PART RPAREN_TOK INNER_BODY . ELSE_PART
+
+    ELSE_TOK  shift, and go to state 134
+
+    $default  reduce using rule 43 (COND)
+
+    ELSE_PART  go to state 135
+
+
+State 126
+
+   60 CONDITIONS: CONDITION LOGIC_OP CONDITIONS .
+
+    $default  reduce using rule 60 (CONDITIONS)
+
+
+State 127
+
+   46 ITER: FOR_TOK LPAREN_TOK INIT_PART SEMICOLON_TOK COND_PART . SEMICOLON_TOK CHANGE_PART RPAREN_TOK INNER_BODY
+
+    SEMICOLON_TOK  shift, and go to state 136
+
+
+State 128
+
+   47 ITER: WHILE_TOK LPAREN_TOK COND_PART RPAREN_TOK INNER_BODY .
+
+    $default  reduce using rule 47 (ITER)
+
+
+State 129
+
+   48 ITER: DO_TOK INNER_BODY WHILE_TOK LPAREN_TOK COND_PART . RPAREN_TOK SEMICOLON_TOK
+
+    RPAREN_TOK  shift, and go to state 137
+
+
+State 130
+
+   68 PARAMS: PARAM COMMA_TOK PARAMS .
+
+    $default  reduce using rule 68 (PARAMS)
+
+
+State 131
+
+   21 ARRAY_OPTN: LSQ_TOK INT_CONST_TOK RSQ_TOK .
+
+    $default  reduce using rule 21 (ARRAY_OPTN)
+
+
+State 132
+
+   22 ARRAY_OPTN: LSQ_TOK FLOAT_CONST_TOK RSQ_TOK .
+
+    $default  reduce using rule 22 (ARRAY_OPTN)
+
+
+State 133
+
+   20 VARS: IDENTIFIER_TOK ARRAY_OPTN COMMA_TOK VARS .
+
+    $default  reduce using rule 20 (VARS)
+
+
+State 134
+
+   45 ELSE_PART: ELSE_TOK . INNER_BODY
+
+    LCURLY_TOK  shift, and go to state 21
+
+    $default  reduce using rule 51 (BODY_START)
+
+    BLK         go to state 49
+    BLK_START   go to state 23
+    INNER_BODY  go to state 138
+    BODY_START  go to state 51
+
+
+State 135
+
+   44 COND: IF_TOK LPAREN_TOK COND_PART RPAREN_TOK INNER_BODY ELSE_PART .
+
+    $default  reduce using rule 44 (COND)
+
+
+State 136
+
+   46 ITER: FOR_TOK LPAREN_TOK INIT_PART SEMICOLON_TOK COND_PART SEMICOLON_TOK . CHANGE_PART RPAREN_TOK INNER_BODY
+
+    IDENTIFIER_TOK  shift, and go to state 139
+
+    $default  reduce using rule 56 (CHANGE_PART)
+
+    CHANGE_PART  go to state 140
+
+
+State 137
+
+   48 ITER: DO_TOK INNER_BODY WHILE_TOK LPAREN_TOK COND_PART RPAREN_TOK . SEMICOLON_TOK
+
+    SEMICOLON_TOK  shift, and go to state 141
+
+
+State 138
+
+   45 ELSE_PART: ELSE_TOK INNER_BODY .
+
+    $default  reduce using rule 45 (ELSE_PART)
+
+
+State 139
+
+   54 CHANGE_PART: IDENTIFIER_TOK . PLUS_TOK PLUS_TOK
+   55            | IDENTIFIER_TOK . MINUS_TOK MINUS_TOK
+
+    PLUS_TOK   shift, and go to state 142
+    MINUS_TOK  shift, and go to state 143
+
+
+State 140
+
+   46 ITER: FOR_TOK LPAREN_TOK INIT_PART SEMICOLON_TOK COND_PART SEMICOLON_TOK CHANGE_PART . RPAREN_TOK INNER_BODY
+
+    RPAREN_TOK  shift, and go to state 144
+
+
+State 141
+
+   48 ITER: DO_TOK INNER_BODY WHILE_TOK LPAREN_TOK COND_PART RPAREN_TOK SEMICOLON_TOK .
+
+    $default  reduce using rule 48 (ITER)
+
+
+State 142
+
+   54 CHANGE_PART: IDENTIFIER_TOK PLUS_TOK . PLUS_TOK
+
+    PLUS_TOK  shift, and go to state 145
+
+
+State 143
+
+   55 CHANGE_PART: IDENTIFIER_TOK MINUS_TOK . MINUS_TOK
+
+    MINUS_TOK  shift, and go to state 146
+
+
+State 144
+
+   46 ITER: FOR_TOK LPAREN_TOK INIT_PART SEMICOLON_TOK COND_PART SEMICOLON_TOK CHANGE_PART RPAREN_TOK . INNER_BODY
+
+    LCURLY_TOK  shift, and go to state 21
+
+    $default  reduce using rule 51 (BODY_START)
+
+    BLK         go to state 49
+    BLK_START   go to state 23
+    INNER_BODY  go to state 147
+    BODY_START  go to state 51
+
+
+State 145
+
+   54 CHANGE_PART: IDENTIFIER_TOK PLUS_TOK PLUS_TOK .
+
+    $default  reduce using rule 54 (CHANGE_PART)
+
+
+State 146
+
+   55 CHANGE_PART: IDENTIFIER_TOK MINUS_TOK MINUS_TOK .
+
+    $default  reduce using rule 55 (CHANGE_PART)
+
+
+State 147
+
+   46 ITER: FOR_TOK LPAREN_TOK INIT_PART SEMICOLON_TOK COND_PART SEMICOLON_TOK CHANGE_PART RPAREN_TOK INNER_BODY .
+
+    $default  reduce using rule 46 (ITER)
